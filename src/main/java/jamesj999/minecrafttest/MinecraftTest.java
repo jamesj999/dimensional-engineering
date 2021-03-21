@@ -1,7 +1,6 @@
 package jamesj999.minecrafttest;
 
-import jamesj999.minecrafttest.block.TestBlock;
-import jamesj999.minecrafttest.item.TestItem;
+import jamesj999.minecrafttest.factory.TestFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
@@ -29,13 +28,24 @@ import java.util.stream.Collectors;
 @Mod("minecraft-test")
 public class MinecraftTest {
 
-    private static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft-test");
-    private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft-test");
-    public static final RegistryObject<Block> TEST_BLOCK = BLOCKS.register("test", () -> new TestBlock(TestBlock.generateProperties()));
-    public static final RegistryObject<Item> TEST_ITEM = ITEMS.register("testitem", () -> new TestItem(TEST_BLOCK.get(), TestItem.generateProperties()));
-
-    // Directly reference a log4j logger.
+    // Log4Jesus
     private static final Logger LOGGER = LogManager.getLogger();
+
+    private static final DeferredRegister<Block> BLOCKS;
+    private static final DeferredRegister<Item> ITEMS;
+    public static final RegistryObject<Block> TEST_BLOCK;
+    public static final RegistryObject<Item> TEST_ITEM;
+
+    static {
+        //Get Register Singletons
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft-test");
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft-test");
+
+        //Register our block with the registers
+        TEST_BLOCK = BLOCKS.register("test", TestFactory::createBlock);
+        TEST_ITEM = ITEMS.register("testitem", TestFactory::createItem);
+
+    }
 
     public MinecraftTest() {
         BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
