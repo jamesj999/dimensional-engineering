@@ -11,6 +11,8 @@ import net.minecraft.item.ItemGroup;
  */
 public class TestItem extends BlockItem {
 
+    public static final String ID = "testitem";
+
     /**
      *
      * @param block Block item in registry

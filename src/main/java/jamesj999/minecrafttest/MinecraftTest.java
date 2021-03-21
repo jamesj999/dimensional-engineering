@@ -1,11 +1,13 @@
 package jamesj999.minecrafttest;
 
 import jamesj999.minecrafttest.factory.TestFactory;
+import jamesj999.minecrafttest.helper.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.RegistryObject;
@@ -28,36 +30,27 @@ import java.util.stream.Collectors;
 @Mod("minecraft-test")
 public class MinecraftTest {
 
+    // Id of our mod
+    public static final String MOD_ID = "minecraft-test";
+
     // Log4Jesus
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private static final DeferredRegister<Block> BLOCKS;
-    private static final DeferredRegister<Item> ITEMS;
-    public static final RegistryObject<Block> TEST_BLOCK;
-    public static final RegistryObject<Item> TEST_ITEM;
-
-    static {
-        //Get Register Singletons
-        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, "minecraft-test");
-        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, "minecraft-test");
-
-        //Register our block with the registers
-        TEST_BLOCK = BLOCKS.register("test", TestFactory::createBlock);
-        TEST_ITEM = ITEMS.register("testitem", TestFactory::createItem);
-
-    }
-
     public MinecraftTest() {
-        BLOCKS.register(FMLJavaModLoadingContext.get().getModEventBus());
-        ITEMS.register(FMLJavaModLoadingContext.get().getModEventBus());
+
+        IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        //Register our blocks with the loader
+        RegistryHelper.addRegistriesToLoader();
+
         // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        eventBus.addListener(this::setup);
         // Register the enqueueIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
+        eventBus.addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
+        eventBus.addListener(this::processIMC);
         // Register the doClientStuff method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
+        eventBus.addListener(this::doClientStuff);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);

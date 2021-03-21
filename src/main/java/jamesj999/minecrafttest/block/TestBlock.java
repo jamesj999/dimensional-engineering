@@ -16,7 +16,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class TestBlock extends Block {
+
     private static final Logger LOGGER = LogManager.getLogger();
+    public static final String ID = "test";
 
     public TestBlock(Properties properties) {
         super(properties);
@@ -42,7 +44,7 @@ public class TestBlock extends Block {
         @SubscribeEvent
         public void blockInteract(BlockEvent.BlockToolInteractEvent interactEvent) {
             if (interactEvent.getState().getBlock() instanceof TestBlock) {
-                interactEvent.getPlayer().sendMessage(new StringTextComponent("test"), interactEvent.getPlayer().getUniqueID());
+                interactEvent.getPlayer().sendMessage(new StringTextComponent(ID), interactEvent.getPlayer().getUniqueID());
                 if (ToolType.HOE.equals(interactEvent.getToolType())) {
                     interactEvent.getPlayer().sendMessage(new StringTextComponent("Don't HOE me bro"), interactEvent.getPlayer().getUniqueID());
                     interactEvent.setResult(Event.Result.ALLOW);
