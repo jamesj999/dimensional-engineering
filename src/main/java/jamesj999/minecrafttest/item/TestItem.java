@@ -1,6 +1,5 @@
 package jamesj999.minecrafttest.item;
 
-import jamesj999.minecrafttest.MinecraftTest;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -20,7 +19,6 @@ public class TestItem extends BlockItem {
      */
     public TestItem(Block block, Properties properties) {
         super(block, properties);
-
     }
 
     /**

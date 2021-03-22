@@ -27,6 +27,7 @@ public class RegistryHelper {
         TEST_BLOCK = BLOCKS.register(TestBlock.ID, TestFactory::createBlock);
         TEST_ITEM = ITEMS.register(TestItem.ID, TestFactory::createItem);
 
+
     }
 
     public static DeferredRegister<Block> getBlocksRegistry() {

@@ -1,0 +1,20 @@
+{
+  "type" : "minecraft:crafting_shaped",
+  "pattern":
+          [
+            "a  ",
+            " a ",
+            "  a"
+          ],
+  "key":
+  {
+    "a": {
+      "item": "minecraft:dirt"
+    }
+  },
+  "result":
+  {
+    "item": "minecraft-test:testitem",
+    "count": 64
+  }
+}
