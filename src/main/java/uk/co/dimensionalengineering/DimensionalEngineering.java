@@ -1,6 +1,5 @@
 package uk.co.dimensionalengineering;
 
-import uk.co.dimensionalengineering.helper.RegistryHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +17,7 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.co.dimensionalengineering.helper.RegistryHelper;
 
 import java.util.stream.Collectors;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class DimensionalEngineering {
 
     // Id of our mod
-    public static final String MOD_ID = "minecraft-test";
+    public static final String MOD_ID = "dimensional-engineering";
 
     // Log4Jesus
     private static final Logger LOGGER = LogManager.getLogger();
@@ -64,7 +64,7 @@ public class DimensionalEngineering {
 
     private void enqueueIMC(final InterModEnqueueEvent event) {
         // some example code to dispatch IMC to another mod
-        InterModComms.sendTo("minecraft-test", "helloworld", () -> {
+        InterModComms.sendTo(MOD_ID, "helloworld", () -> {
             LOGGER.info("Hello world from the MDK");
             return "Hello world";
         });
@@ -81,12 +81,12 @@ public class DimensionalEngineering {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         // do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Dimensional Engineering loading...");
     }
 
     @SubscribeEvent
     public void onServerStopping(FMLServerStoppingEvent event) {
-        LOGGER.info("Bye...");
+        LOGGER.info("Dimensional Engineering unloading...");
     }
 
     // You can use EventBusSubscriber to automatically subscribe events on the contained class (this is subscribing to the MOD

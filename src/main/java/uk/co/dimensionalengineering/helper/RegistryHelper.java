@@ -1,22 +1,25 @@
 package uk.co.dimensionalengineering.helper;
 
-import uk.co.dimensionalengineering.DimensionalEngineering;
-import uk.co.dimensionalengineering.block.TestBlock;
-import uk.co.dimensionalengineering.factory.TestFactory;
-import uk.co.dimensionalengineering.item.TestItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import uk.co.dimensionalengineering.DimensionalEngineering;
+import uk.co.dimensionalengineering.block.PrismaticBlock;
+import uk.co.dimensionalengineering.factory.BlockAndItemFactory;
+import uk.co.dimensionalengineering.item.PrismaticBlockItem;
 
 public class RegistryHelper {
 
     private static final DeferredRegister<Block> BLOCKS;
     private static final DeferredRegister<Item> ITEMS;
-    public static final RegistryObject<Block> TEST_BLOCK;
-    public static final RegistryObject<Item> TEST_ITEM;
+
+    public static final RegistryObject<Block> PRISMATIC_BLOCK;
+
+    public static final RegistryObject<Item> PRISMATIC_ITEM;
+
 
     static {
         //Get Register Singletons
@@ -24,10 +27,8 @@ public class RegistryHelper {
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, DimensionalEngineering.MOD_ID);
 
         //Register blocks
-        TEST_BLOCK = BLOCKS.register(TestBlock.ID, TestFactory::createBlock);
-        TEST_ITEM = ITEMS.register(TestItem.ID, TestFactory::createItem);
-
-
+        PRISMATIC_BLOCK = BLOCKS.register(PrismaticBlock.ID, BlockAndItemFactory::createPrismaticBlock);
+        PRISMATIC_ITEM = ITEMS.register(PrismaticBlockItem.ID, BlockAndItemFactory::createPrismaticBlockItem);
     }
 
     public static DeferredRegister<Block> getBlocksRegistry() {

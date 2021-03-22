@@ -8,16 +8,16 @@ import net.minecraft.item.ItemGroup;
 /**
  *
  */
-public class TestItem extends BlockItem {
+public class PrismaticBlockItem extends BlockItem {
 
-    public static final String ID = "testitem";
+    public static final String ID = "prismaticblock";
 
     /**
      *
      * @param block Block item in registry
      * @param properties Properties of the item
      */
-    public TestItem(Block block, Properties properties) {
+    public PrismaticBlockItem(Block block, Properties properties) {
         super(block, properties);
     }
 
@@ -27,8 +27,8 @@ public class TestItem extends BlockItem {
      */
     public static Item.Properties generateProperties() {
         Item.Properties properties = new Item.Properties();
-        properties.group(ItemGroup.DECORATIONS);
-        properties.maxStackSize(64);
+        properties.group(ItemGroup.MISC);
+        properties.maxStackSize(16);
         return properties;
     }
 
