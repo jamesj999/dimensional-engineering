@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "dimensional-engineering:block/prismatic-workbench-side",
+    "top": "dimensional-engineering:block/prismatic-workbench-top",
+    "bottom": "dimensional-engineering:block/prismatic-workbench-bottom"
+  }
+}

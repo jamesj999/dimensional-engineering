@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "dimensional-engineering:block/prismaticworkbench"
+    }
+  }
+}
