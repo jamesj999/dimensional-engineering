@@ -28,7 +28,7 @@ public class PrismaticBlockItem extends BlockItem {
     public static Item.Properties generateProperties() {
         Item.Properties properties = new Item.Properties();
         properties.group(ItemGroup.MISC);
-        properties.maxStackSize(16);
+        properties.maxStackSize(64);
         return properties;
     }
 

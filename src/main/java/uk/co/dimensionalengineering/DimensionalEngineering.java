@@ -22,7 +22,7 @@ import uk.co.dimensionalengineering.helper.RegistryHelper;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("minecraft-test")
+@Mod("dimensional-engineering")
 public class DimensionalEngineering {
 
     // Id of our mod
