@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
@@ -34,13 +35,9 @@ public class PrismaticWorkbenchBlock extends AbstractFurnaceBlock {
 
     @Override
     protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
-        //do some stuff
-    }
-
-    @Nullable
-    @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return null;
+        PrismaticWorkbenchTileEntity tileEntity = (PrismaticWorkbenchTileEntity) worldIn.getTileEntity(pos);
+        int counter = tileEntity.increase();
+        player.sendStatusMessage(new StringTextComponent("Increased to " + counter), false);
     }
 
     @Override
@@ -52,5 +49,17 @@ public class PrismaticWorkbenchBlock extends AbstractFurnaceBlock {
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return BlockAndItemFactory.createPrismaticWorkbenchTile();
+    }
+
+    /**
+     * No idea what this does... the docs say to use {@link #createTileEntity(BlockState, IBlockReader)}
+     *
+     * @param worldIn
+     * @return
+     */
+    @Nullable
+    @Override
+    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+        return null;
     }
 }
