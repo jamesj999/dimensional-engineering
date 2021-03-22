@@ -1,9 +1,8 @@
-package jamesj999.minecrafttest.factory;
+package uk.co.dimensionalengineering.factory;
 
-import jamesj999.minecrafttest.MinecraftTest;
-import jamesj999.minecrafttest.block.TestBlock;
-import jamesj999.minecrafttest.helper.RegistryHelper;
-import jamesj999.minecrafttest.item.TestItem;
+import uk.co.dimensionalengineering.block.TestBlock;
+import uk.co.dimensionalengineering.helper.RegistryHelper;
+import uk.co.dimensionalengineering.item.TestItem;
 
 /**
  *  Ye Olde Designe Pattern

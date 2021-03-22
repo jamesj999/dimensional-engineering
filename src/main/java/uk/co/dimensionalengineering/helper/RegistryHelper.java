@@ -1,9 +1,9 @@
-package jamesj999.minecrafttest.helper;
+package uk.co.dimensionalengineering.helper;
 
-import jamesj999.minecrafttest.MinecraftTest;
-import jamesj999.minecrafttest.block.TestBlock;
-import jamesj999.minecrafttest.factory.TestFactory;
-import jamesj999.minecrafttest.item.TestItem;
+import uk.co.dimensionalengineering.DimensionalEngineering;
+import uk.co.dimensionalengineering.block.TestBlock;
+import uk.co.dimensionalengineering.factory.TestFactory;
+import uk.co.dimensionalengineering.item.TestItem;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
@@ -20,8 +20,8 @@ public class RegistryHelper {
 
     static {
         //Get Register Singletons
-        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MinecraftTest.MOD_ID);
-        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MinecraftTest.MOD_ID);
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, DimensionalEngineering.MOD_ID);
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, DimensionalEngineering.MOD_ID);
 
         //Register blocks
         TEST_BLOCK = BLOCKS.register(TestBlock.ID, TestFactory::createBlock);

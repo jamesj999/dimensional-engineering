@@ -1,4 +1,4 @@
-package jamesj999.minecrafttest.item;
+package uk.co.dimensionalengineering.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
