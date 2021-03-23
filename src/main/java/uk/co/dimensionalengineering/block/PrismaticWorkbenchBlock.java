@@ -2,16 +2,15 @@ package uk.co.dimensionalengineering.block;
 
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import uk.co.dimensionalengineering.factory.BlockAndItemFactory;
 import uk.co.dimensionalengineering.tile.PrismaticWorkbenchTileEntity;
 
 import javax.annotation.Nullable;
@@ -19,18 +18,8 @@ import javax.annotation.Nullable;
 public class PrismaticWorkbenchBlock extends AbstractFurnaceBlock {
     public static final String ID = "prismatic-workbench";
 
-    public PrismaticWorkbenchBlock(Properties properties) {
-        super(properties);
-    }
-
-    public static Properties generateProperties() {
-        Properties properties = Properties.create(Material.ROCK);
-        properties.harvestTool(ToolType.PICKAXE);
-        properties.setRequiresTool();
-        properties.hardnessAndResistance(3.5f, 10.0f);
-        properties.harvestLevel(2);
-
-        return properties;
+    public PrismaticWorkbenchBlock() {
+        super(Properties.create(Material.IRON).sound(SoundType.METAL).harvestTool(ToolType.PICKAXE).setRequiresTool().hardnessAndResistance(3.5f, 10.0f).harvestLevel(2));
     }
 
     @Override
@@ -48,7 +37,7 @@ public class PrismaticWorkbenchBlock extends AbstractFurnaceBlock {
     @Nullable
     @Override
     public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-        return BlockAndItemFactory.createPrismaticWorkbenchTile();
+        return new PrismaticWorkbenchTileEntity();
     }
 
     /**

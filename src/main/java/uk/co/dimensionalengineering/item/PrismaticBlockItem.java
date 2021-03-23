@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import uk.co.dimensionalengineering.helper.RegistryHelper;
 
 /**
  *
@@ -12,24 +13,7 @@ public class PrismaticBlockItem extends BlockItem {
 
     public static final String ID = "prismaticblock";
 
-    /**
-     *
-     * @param block Block item in registry
-     * @param properties Properties of the item
-     */
-    public PrismaticBlockItem(Block block, Properties properties) {
-        super(block, properties);
+    public PrismaticBlockItem() {
+        super(RegistryHelper.PRISMATIC_BLOCK.get(), new Item.Properties().group(ItemGroup.MISC).maxStackSize(64));
     }
-
-    /**
-     *
-     * @return default properties for item
-     */
-    public static Item.Properties generateProperties() {
-        Item.Properties properties = new Item.Properties();
-        properties.group(ItemGroup.MISC);
-        properties.maxStackSize(64);
-        return properties;
-    }
-
 }
