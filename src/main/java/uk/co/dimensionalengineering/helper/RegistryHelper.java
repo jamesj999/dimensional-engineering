@@ -1,7 +1,6 @@
 package uk.co.dimensionalengineering.helper;
 
 import net.minecraft.block.Block;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntityType;
@@ -88,7 +87,6 @@ public class RegistryHelper {
         getItemsRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
         getContainerRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
         getTileEntityRegistry().register(FMLJavaModLoadingContext.get().getModEventBus());
-
     }
 
 }
