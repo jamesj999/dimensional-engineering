@@ -17,6 +17,7 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import uk.co.dimensionalengineering.helper.ClientRegistryHelper;
 import uk.co.dimensionalengineering.helper.RegistryHelper;
 
 import java.util.stream.Collectors;
@@ -37,6 +38,9 @@ public class DimensionalEngineering {
 
         //Register our blocks with the loader
         RegistryHelper.addRegistriesToLoader();
+
+        //Register client stuff with the loader
+        eventBus.addListener(ClientRegistryHelper::init);
 
         // Register the setup method for modloading
         eventBus.addListener(this::setup);
