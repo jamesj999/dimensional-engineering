@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import uk.co.dimensionalengineering.block.PrismaticBlock;
 import uk.co.dimensionalengineering.block.PrismaticWorkbenchBlock;
 import uk.co.dimensionalengineering.container.PrismaticWorkbenchContainer;
+import uk.co.dimensionalengineering.item.DimensionalDisketteItem;
 import uk.co.dimensionalengineering.item.PrismaticBlockItem;
 import uk.co.dimensionalengineering.item.PrismaticWorkbenchItem;
 import uk.co.dimensionalengineering.tile.PrismaticWorkbenchTileEntity;
@@ -34,6 +35,7 @@ public class RegistryHelper {
 
     public static final RegistryObject<Item> PRISMATIC_ITEM;
     public static final RegistryObject<Item> PRISMATIC_WORKBENCH_ITEM;
+    public static final RegistryObject<Item> DIMENSIONAL_DISKETTE_ITEM;
 
     public static final RegistryObject<ContainerType<PrismaticWorkbenchContainer>> PRISMATIC_WORKBENCH_CONTAINER;
 
@@ -53,15 +55,16 @@ public class RegistryHelper {
         //Register items
         PRISMATIC_ITEM = ITEMS.register(PrismaticBlockItem.ID, PrismaticBlockItem::new);
         PRISMATIC_WORKBENCH_ITEM = ITEMS.register(PrismaticWorkbenchItem.ID, PrismaticWorkbenchItem::new);
+        DIMENSIONAL_DISKETTE_ITEM = ITEMS.register(DimensionalDisketteItem.ID, DimensionalDisketteItem::new);
 
         //Register tiles
         PRISMATIC_WORKBENCH_TILE_ENTITY = TILES.register(PrismaticWorkbenchTileEntity.ID, () -> TileEntityType.Builder.create(PrismaticWorkbenchTileEntity::new, PRISMATIC_BLOCK.get()).build(null));
 
         //Register containers
         PRISMATIC_WORKBENCH_CONTAINER = CONTAINERS.register(PrismaticWorkbenchContainer.ID, () -> IForgeContainerType.create(((windowId, inv, data) -> {
-            BlockPos pos = data.readBlockPos();
+            //BlockPos pos = data.readBlockPos();
             World world = inv.player.getEntityWorld();
-            return new PrismaticWorkbenchContainer(windowId,world,pos,inv, inv.player);
+            return new PrismaticWorkbenchContainer(windowId, world, inv, new PrismaticWorkbenchTileEntity());
         })));
 
     }

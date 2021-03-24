@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#i#",
+    "#R#",
+    "#G#"
+  ],
+  "key": {
+    "#": {
+      "item": "dimensional-engineering:prismaticblock"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:redstone"
+    },
+    "G": {
+      "item": "minecraft:glowstone_dust"
+    }
+  },
+  "result": {
+    "item": "dimensional-engineering:dimensional-diskette",
+    "count": 1
+  }
+}
