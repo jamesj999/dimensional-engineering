@@ -58,7 +58,7 @@ public class RegistryHelper {
         DIMENSIONAL_DISKETTE_ITEM = ITEMS.register(DimensionalDisketteItem.ID, DimensionalDisketteItem::new);
 
         //Register tiles
-        PRISMATIC_WORKBENCH_TILE_ENTITY = TILES.register(PrismaticWorkbenchTileEntity.ID, () -> TileEntityType.Builder.create(PrismaticWorkbenchTileEntity::new, PRISMATIC_BLOCK.get()).build(null));
+        PRISMATIC_WORKBENCH_TILE_ENTITY = TILES.register(PrismaticWorkbenchTileEntity.ID, () -> TileEntityType.Builder.create(PrismaticWorkbenchTileEntity::new, PRISMATIC_WORKBENCH_BLOCK.get()).build(null));
 
         //Register containers
         PRISMATIC_WORKBENCH_CONTAINER = CONTAINERS.register(PrismaticWorkbenchContainer.ID, () -> IForgeContainerType.create(((windowId, inv, data) -> {

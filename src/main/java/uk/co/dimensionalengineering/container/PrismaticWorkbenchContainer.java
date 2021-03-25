@@ -21,18 +21,18 @@ public class PrismaticWorkbenchContainer extends Container {
     public World world;
 
     public PrismaticWorkbenchContainer(int windowId, World world, PlayerInventory playerInventory, TileEntity tileEntity) {
-
         super(RegistryHelper.PRISMATIC_WORKBENCH_CONTAINER.get(), windowId);
         this.playerInventory = new InvWrapper(playerInventory);
         this.world = world;
         this.tileEntity = tileEntity;
 
-        if (tileEntity != null) {
+        if (tileEntity instanceof PrismaticWorkbenchTileEntity) {
             tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
-                addSlot(new SlotItemHandler(h, 0, 64, 24));
+                // TODO - Retrieve Container Inventory from tileEntity and render here.
+                addSlot(new SlotItemHandler(h, 0, 0, 0));
             });
         }
-        layoutPlayerInventorySlots(10, 70);
+        layoutPlayerInventorySlots(7, 84);
     }
 
     @Override
@@ -58,7 +58,8 @@ public class PrismaticWorkbenchContainer extends Container {
         return index;
     }
 
-    private int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    private int addSlotBox(IItemHandler handler, int index, int x, int y, int horAmount, int dx, int verAmount,
+                           int dy) {
         for (int j = 0; j < verAmount; j++) {
             index = addSlotRange(handler, index, x, y, horAmount, dx);
             y += dy;
