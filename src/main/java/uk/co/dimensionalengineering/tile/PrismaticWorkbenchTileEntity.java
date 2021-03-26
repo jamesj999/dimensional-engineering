@@ -17,8 +17,6 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.items.SlotItemHandler;
-import uk.co.dimensionalengineering.block.PrismaticBlock;
 import uk.co.dimensionalengineering.container.PrismaticWorkbenchContainer;
 import uk.co.dimensionalengineering.helper.RegistryHelper;
 import uk.co.dimensionalengineering.item.DimensionalDisketteItem;
