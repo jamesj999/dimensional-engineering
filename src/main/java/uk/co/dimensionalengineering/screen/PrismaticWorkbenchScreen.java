@@ -12,6 +12,8 @@ import uk.co.dimensionalengineering.container.PrismaticWorkbenchContainer;
 import uk.co.dimensionalengineering.tile.PrismaticWorkbenchTileEntity;
 
 public class PrismaticWorkbenchScreen extends ContainerScreen<PrismaticWorkbenchContainer> {
+    protected int xSize = 190;
+    protected int ySize = 210;
 
     private final ResourceLocation GUI = new ResourceLocation(DimensionalEngineering.MOD_ID, "textures/gui/prismatic_workbench_gui.png");
 

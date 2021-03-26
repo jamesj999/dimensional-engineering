@@ -3,6 +3,7 @@ package uk.co.dimensionalengineering.container;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.world.World;
@@ -20,6 +21,9 @@ public class PrismaticWorkbenchContainer extends Container {
     public IItemHandler playerInventory;
     public World world;
 
+    public int UPGRADE_SLOT = 0;
+    public int DISKETTE_SLOT = 1;
+
     public PrismaticWorkbenchContainer(int windowId, World world, PlayerInventory playerInventory, TileEntity tileEntity) {
         super(RegistryHelper.PRISMATIC_WORKBENCH_CONTAINER.get(), windowId);
         this.playerInventory = new InvWrapper(playerInventory);
@@ -27,12 +31,19 @@ public class PrismaticWorkbenchContainer extends Container {
         this.tileEntity = tileEntity;
 
         if (tileEntity instanceof PrismaticWorkbenchTileEntity) {
-            tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(h -> {
+
                 // TODO - Retrieve Container Inventory from tileEntity and render here.
-                addSlot(new SlotItemHandler(h, 0, 0, 0));
-            });
+                ((IItemHandler) tileEntity).getStackInSlot(0);
+
+                SlotItemHandler upgradeHandler = new SlotItemHandler((IItemHandler) tileEntity, 0, 1, 66);
+                SlotItemHandler disketteHandler = new SlotItemHandler((IItemHandler) tileEntity, 1, 1, 80);
+
+                addSlot(upgradeHandler);
+                addSlot(disketteHandler);
+
+                //addSlot(new SlotItemHandler(h, 0, 0, 0));
         }
-        layoutPlayerInventorySlots(7, 84);
+        layoutPlayerInventorySlots(1, 96);
     }
 
     @Override
@@ -42,11 +53,11 @@ public class PrismaticWorkbenchContainer extends Container {
 
     private void layoutPlayerInventorySlots(int leftCol, int topRow) {
         // Player inventory
-        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 18, 3, 18);
+        addSlotBox(playerInventory, 9, leftCol, topRow, 9, 19, 3, 19);
 
         // Hotbar
-        topRow += 58;
-        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 18);
+        topRow += 66;
+        addSlotRange(playerInventory, 0, leftCol, topRow, 9, 19);
     }
 
     private int addSlotRange(IItemHandler handler, int index, int x, int y, int amount, int dx) {

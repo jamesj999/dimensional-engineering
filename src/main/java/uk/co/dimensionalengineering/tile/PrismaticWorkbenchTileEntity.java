@@ -7,9 +7,7 @@ import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
@@ -17,15 +15,19 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.minecraftforge.items.SlotItemHandler;
+import uk.co.dimensionalengineering.block.PrismaticBlock;
 import uk.co.dimensionalengineering.container.PrismaticWorkbenchContainer;
 import uk.co.dimensionalengineering.helper.RegistryHelper;
 import uk.co.dimensionalengineering.item.DimensionalDisketteItem;
+import uk.co.dimensionalengineering.item.PrismaticBlockItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedContainerProvider, ICapabilityProvider, IItemHandler, ITickableTileEntity {
+public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedContainerProvider, ICapabilityProvider, IItemHandler, IItemHandlerModifiable, ITickableTileEntity {
     public static final String ID = "prismatic-workbench";
     private static final String COUNTER_ID = "counter";
     private static final String DISPLAY_NAME = "Prismatic Workbench";
@@ -83,7 +85,10 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
     @Nonnull
     @Override
     public ItemStack getStackInSlot(int slot) {
-        return null;
+        if(slot <= getSlots()) {
+            return contents.get(slot);
+        }
+        return ItemStack.EMPTY;
     }
 
     @Nonnull
@@ -92,12 +97,11 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
         if (slot <= getSlots()) {
             ItemStack itemStack = contents.get(slot);
             if(ItemStack.EMPTY.equals(itemStack)) {
-                itemStack = stack;
+                if(!simulate) {
+                    contents.set(slot, itemStack.copy());
+                }
+                return ItemStack.EMPTY;
             }
-            if(!simulate) {
-                contents.set(slot, itemStack);
-            }
-            return itemStack;
         }
         return stack;
     }
@@ -126,7 +130,9 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
     @Override
     public int getSlotLimit(int slot) {
         if (slot <= contents.size()) {
-            return contents.get(slot).getMaxStackSize();
+            return 1;
+            // Don't want this as it just returns the Item's max stack size:
+            //return contents.get(slot).getMaxStackSize();
         } else {
             //TODO: Find out if this is the correct way of saying get stuffed.
             return -1;
@@ -135,6 +141,12 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
 
     @Override
     public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
+        //TODO: Abstract / make nice framework for this
+        if(slot == 0 && stack.getItem() instanceof PrismaticBlockItem) {
+            return true;
+        } else if(slot == 1 && stack.getItem() instanceof DimensionalDisketteItem) {
+            return true;
+        }
         return false;
     }
 
@@ -152,4 +164,10 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
         }
     }
 
+    @Override
+    public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
+        if(slot <= getSlots()) {
+            contents.set(slot, stack);
+        }
+    }
 }
