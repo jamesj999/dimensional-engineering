@@ -33,8 +33,6 @@ public class PrismaticWorkbenchContainer extends Container {
 
             addSlot(upgradeHandler);
             addSlot(disketteHandler);
-
-            //addSlot(new SlotItemHandler(h, 0, 0, 0));
         }
         layoutPlayerInventorySlots(8, 94);
     }
@@ -91,19 +89,15 @@ public class PrismaticWorkbenchContainer extends Container {
      */
     @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-        if(!(inventorySlots.get(index) instanceof SlotItemHandler)) {
+        if (!(inventorySlots.get(index) instanceof SlotItemHandler)) {
             // Can't deal with this, shouldn't happen?
             return inventorySlots.get(index).getStack();
         }
         SlotItemHandler sourceSlot = ((SlotItemHandler) inventorySlots.get(index));
         boolean fromContainer = sourceSlot.getItemHandler().getClass().equals(tileEntity.getClass());
 
-        int start;
-        int end;
-        //int indexInSourceHandler = source;
         IItemHandler sourceHandler;
         IItemHandler targetHandler;
-
         if (fromContainer) {
             targetHandler = playerInventory;
             sourceHandler = (IItemHandler) tileEntity;
@@ -112,31 +106,30 @@ public class PrismaticWorkbenchContainer extends Container {
             sourceHandler = playerInventory;
         }
 
+        ItemStack sourceItem = sourceSlot.getStack();
+
+        // This loop searches to see if there are any stacks matching the type of item we are trying to transfer and transfers what it can
         for (int i = 0; i < targetHandler.getSlots(); i++) {
-            if (targetHandler.isItemValid(i, sourceSlot.getStack())) {
-                targetHandler.insertItem(i, sourceHandler.extractItem(sourceSlot.getSlotIndex(), 1, false), false);
+            ItemStack stackInSlot = targetHandler.getStackInSlot(i);
+            // Check the stack is not empty and it has our type of item already in it:
+            if (!ItemStack.EMPTY.equals(stackInSlot) && targetHandler.isItemValid(sourceSlot.getSlotIndex(), sourceItem) && sourceItem.getItem().getClass().equals(stackInSlot.getItem())) {
+                if (stackInSlot.getItem().getClass().equals(sourceItem.getItem().getClass()) && stackInSlot.getCount() <= stackInSlot.getMaxStackSize()) {
+                    return targetHandler.insertItem(i, sourceHandler.extractItem(sourceSlot.getSlotIndex(), sourceItem.getCount(), false), false);
+                }
             }
         }
-        return ItemStack.EMPTY;
-    }
 
-//    private boolean tryToTransferStack(ItemStack toInsert, boolean fromC) {
-//        (IItemHandler) tileEntity;
-//        for (int i = 0; i < prismaticWorkbenchTileEntity.getSlots(); i++) {
-//            if (prismaticWorkbenchTileEntity.isItemValid(i, toInsert)) {
-//                prismaticWorkbenchTileEntity.insertItem(i, toInsert, false);
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
-
-    private boolean tryToRemoveStack(ItemStack toRemove) {
-        for (int i = 0; i < playerInventory.getSlots(); i++) {
-            if (playerInventory.isItemValid(i, toRemove) && ItemStack.EMPTY.equals(playerInventory.getStackInSlot(i))) {
-                return true;
+        // This loop searches for the first available empty slot and transfers there.
+        for (int i = 0; i < targetHandler.getSlots(); i++) {
+            if (targetHandler.isItemValid(i, sourceItem)) {
+                ItemStack stackInSlot = targetHandler.getStackInSlot(i);
+                // The ItemStack we're checking is empty, so can transfer immediately.
+                if (ItemStack.EMPTY.equals(stackInSlot)) {
+                    return targetHandler.insertItem(i, sourceHandler.extractItem(sourceSlot.getSlotIndex(), sourceItem.getCount(), false), false);
+                }
             }
         }
-        return false;
+        // I assume the return value should be what's left that can't be transferred?! Document your shit, Forge.
+        return sourceItem;
     }
 }
