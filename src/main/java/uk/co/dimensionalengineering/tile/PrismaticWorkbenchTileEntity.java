@@ -20,10 +20,11 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import uk.co.dimensionalengineering.container.PrismaticWorkbenchContainer;
 import uk.co.dimensionalengineering.helper.RegistryHelper;
 import uk.co.dimensionalengineering.item.DimensionalDisketteItem;
-import uk.co.dimensionalengineering.item.PrismaticBlockItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.List;
 
 public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedContainerProvider, ICapabilityProvider, IItemHandler, IItemHandlerModifiable, ITickableTileEntity {
     public static final String ID = "prismatic-workbench";
@@ -33,11 +34,13 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
 
     private int counter = 0;
     private int tickTimer = 0;
+    private List<String> allowedItemIdPerSlot;
 
     private NonNullList<ItemStack> contents = NonNullList.withSize(SLOTS, ItemStack.EMPTY);
 
     public PrismaticWorkbenchTileEntity() {
         super(RegistryHelper.PRISMATIC_WORKBENCH_TILE_ENTITY.get());
+        allowedItemIdPerSlot = Arrays.asList(RegistryHelper.PRISMATIC_ITEM.getId().toString(), RegistryHelper.DIMENSIONAL_DISKETTE_ITEM.getId().toString());
     }
 
     public int getCounter() {
@@ -54,7 +57,7 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
     @Override
     public void read(BlockState state, CompoundNBT nbt) {
         counter = nbt.getInt(COUNTER_ID);
-        ItemStackHelper.loadAllItems(nbt,contents);
+        ItemStackHelper.loadAllItems(nbt, contents);
         super.read(state, nbt);
     }
 
@@ -83,7 +86,7 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
     @Nonnull
     @Override
     public ItemStack getStackInSlot(int slot) {
-        if(slot <= getSlots()) {
+        if (slot <= getSlots()) {
             return contents.get(slot);
         }
         return ItemStack.EMPTY;
@@ -91,32 +94,36 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
 
     @Nonnull
     @Override
-    public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
+    public ItemStack insertItem(int slot, @Nonnull ItemStack stackIn, boolean simulate) {
         if (slot <= getSlots()) {
-            ItemStack itemStack = contents.get(slot);
-            if(ItemStack.EMPTY.equals(itemStack)) {
-                if(!simulate) {
-                    contents.set(slot, itemStack.copy());
+            ItemStack currentStack = contents.get(slot);
+            if (ItemStack.EMPTY.equals(currentStack)) {
+                int quantityOut = stackIn.getCount() - 1;
+                ItemStack stackOut = ItemHandlerHelper.copyStackWithSize(stackIn, quantityOut);
+                if (!simulate) {
+                    contents.set(slot, ItemHandlerHelper.copyStackWithSize(stackIn, 1));
                 }
-                return ItemStack.EMPTY;
+                return stackOut;
+            } else {
+                //TODO: 'Swap' the items.
             }
         }
-        return stack;
+        return stackIn;
     }
 
     @Nonnull
     @Override
     public ItemStack extractItem(int slot, int amount, boolean simulate) {
-        if(amount != 0 && slot <= contents.size()) {
+        if (amount != 0 && slot <= contents.size()) {
             ItemStack itemStack = contents.get(slot);
             int toExtract = Math.min(amount, itemStack.getMaxStackSize());
-            if(itemStack.getCount() <= toExtract) {
-                if(!simulate) {
-                    contents.set(slot,ItemStack.EMPTY);
+            if (itemStack.getCount() <= toExtract) {
+                if (!simulate) {
+                    contents.set(slot, ItemStack.EMPTY);
                 }
                 return itemStack;
             } else {
-                if(!simulate) {
+                if (!simulate) {
                     contents.set(slot, ItemHandlerHelper.copyStackWithSize(itemStack, itemStack.getCount() - toExtract));
                 }
                 return ItemHandlerHelper.copyStackWithSize(itemStack, toExtract);
@@ -140,9 +147,8 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
     @Override
     public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
         //TODO: Abstract / make nice framework for this
-        if(slot == 0 && stack.getItem() instanceof PrismaticBlockItem) {
-            return true;
-        } else if(slot == 1 && stack.getItem() instanceof DimensionalDisketteItem) {
+        String requestedId = stack.getItem().getRegistryName().toString();
+        if (allowedItemIdPerSlot.get(slot).equals(requestedId)) {
             return true;
         }
         return false;
@@ -164,7 +170,7 @@ public class PrismaticWorkbenchTileEntity extends TileEntity implements INamedCo
 
     @Override
     public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
-        if(slot <= getSlots()) {
+        if (slot <= getSlots()) {
             contents.set(slot, stack);
         }
     }
